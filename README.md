@@ -14,13 +14,13 @@ Wrapper for browser-native WebSocket client. It's built using the Polymer projec
 2. Import Custom Element:
 
     ```html
-    <link rel="import" href="src/ws-element.html">
+    <link rel="import" href="ws-element/ws-element.html">
     ```
 
 3. Start using it!
 
     ```html
-    <ws-element url="ws://localhost:9999" protocol="echo-protocol"></ws-element>
+    <ws-element url="ws://localhost:9999" protocol="echo-protocol" on-open="onOpen" on-error="onError" on-message="onMessage"></ws-element>
     ```
 
 ## Options
@@ -41,6 +41,6 @@ Method        | Parameters   | Returns     | Description
 
 Event         | Description
 ---           | ---
-`onmessage` | Triggers when a message from the server is received.
-`onerror` | Triggers when there is an error triggered by WebSocket client
-`onopen` | Triggers when a socket is first open
+`message` | Triggers when a message from the server is received.
+`error` | Triggers when there is an error triggered by WebSocket client
+`open` | Triggers when a socket is first open

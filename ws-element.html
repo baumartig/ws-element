@@ -1,43 +1,46 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 <dom-module id="ws-element">
-	<style>
-		:host {
-			display: none;
-		}
-	</style>
-	<template>
+    <style>
+        :host {
+            display: none;
+        }
+    </style>
+    <template>
 
-	</template>
+    </template>
 </dom-module>
 <script type="text/javascript">
-	(function() {
+    (function() {
         Polymer({
             is: "ws-element",
             socket: null,
             properties: {
                 protocol: {
-                    type: String
+                    type: String,
+                    observer: 'connect'
                 },
                 url: {
-                    type: String
+                    type: String,
+                    observer: 'connect'
                 }
             },
-            ready: function () {
-
-                this.socket = new WebSocket(this.url, this.protocol);
-                this.socket.onerror = this.onError.bind(this);
-                this.socket.onopen = this.onOpen.bind(this);
-                this.socket.onmessage = this.onMessage.bind(this);
-
+            connect: function() {
+                if (this.url && this.url.length > 0
+                    && this.protocol && this.protocol.length > 0) {
+                    this.socket = new WebSocket(this.url, this.protocol);
+                    this.socket.onerror = this.onError.bind(this);
+                    this.socket.onopen = this.onOpen.bind(this);
+                    this.socket.onmessage = this.onMessage.bind(this);
+                }
             },
             onError: function (error) {
-                this.fire('onerror', error);
+                this.fire('error', error);
             },
             onOpen: function (event) {
-                this.fire('onopen');
+                this.fire('open');
             },
             onMessage: function (event) {
-                this.fire('onmessage', event.data);
+                this.fire('message', event.data);
             },
             send: function (message) {
                 this.socket.send(message);
@@ -46,5 +49,5 @@
                 this.socket.close();
             }
         })
-	})();
+    })();
 </script>
